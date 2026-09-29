@@ -47,15 +47,17 @@ header{position:fixed;top:0;left:0;right:0;z-index:20;padding:14px 22px;transiti
 .logo::before,.logo::after{content:'';position:absolute;width:22px;height:22px}
 .logo::before{border-radius:50%;background:#fff;left:0;top:0}
 .logo::after{border:2px solid #fff;right:0;bottom:0}
-nav.tabs{position:fixed;top:14px;left:50%;translate:-50% 0;z-index:21;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:min(540px,calc(100vw - 24px));padding:6px;border-radius:99px;background:rgba(255,255,255,.07);backdrop-filter:blur(18px) saturate(200%) brightness(1.15);-webkit-backdrop-filter:blur(18px) saturate(200%) brightness(1.15);box-shadow:0 14px 44px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.15),inset 0 0 22px rgba(255,255,255,.07)}
-.tabs .ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/3);border-radius:99px;background:#fff;box-shadow:0 4px 20px rgba(255,255,255,.4),inset 0 -2px 5px rgba(0,0,0,.15);transition:transform .65s cubic-bezier(.34,1.35,.5,1)}
+nav.tabs{position:fixed;top:14px;left:50%;translate:-50% 0;z-index:21;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:min(640px,calc(100vw - 24px));padding:6px;border-radius:99px;background:rgba(255,255,255,.07);backdrop-filter:blur(18px) saturate(200%) brightness(1.15);-webkit-backdrop-filter:blur(18px) saturate(200%) brightness(1.15);box-shadow:0 14px 44px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3),inset 0 1px 1px rgba(255,255,255,.55),inset 0 -1px 1px rgba(255,255,255,.15),inset 0 0 22px rgba(255,255,255,.07)}
+.tabs .ind{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/4);border-radius:99px;background:#fff;box-shadow:0 4px 20px rgba(255,255,255,.4),inset 0 -2px 5px rgba(0,0,0,.15);transition:transform .65s cubic-bezier(.34,1.35,.5,1)}
 .tabs[data-k=IIT] .ind{transform:translateX(100%)}
 .tabs[data-k=PROJ] .ind{transform:translateX(200%)}
+.tabs[data-k=CAL] .ind{transform:translateX(300%)}
 .ind.sq{animation:squish .65s}
 @keyframes squish{40%{scale:1.16 .86}}
 .tab{position:relative;z-index:1;padding:10px 8px;text-align:center;border:0;background:none;border-radius:99px;white-space:nowrap;font-size:.92rem;color:#fff;transition:color .3s}
 .tab.on{color:#000;font-weight:600}
-@media(max-width:760px){nav.tabs{top:auto;bottom:16px}.tab{padding:10px 4px;font-size:.74rem}#toast{bottom:90px}}
+@media(max-width:1100px){nav.tabs{top:auto;bottom:16px}#toast{bottom:90px}}
+@media(max-width:760px){.tab{padding:8px 2px;font-size:.68rem;white-space:normal;line-height:1.15}}
 
 .wrap{max-width:1200px;margin:auto;padding:0 22px 80px}
 .hero{min-height:92vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px;will-change:transform,opacity,filter}
@@ -84,8 +86,8 @@ body.go .sub{opacity:.88}
 h2{font:800 1.5rem Syne,sans-serif;margin:0 0 18px;color:#fff}
 .f{display:grid;gap:6px;margin-bottom:14px}
 .f span{font-size:.85rem;opacity:.82}
-input[type=text],select{width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);color:inherit;border-radius:14px;padding:12px 14px;font:inherit;outline:0;transition:.25s}
-input[type=text]:focus,select:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
+input[type=text],input[type=time],input[type=password],textarea,select{width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);color:inherit;border-radius:14px;padding:12px 14px;font:inherit;outline:0;transition:.25s}
+input[type=text]:focus,input[type=time]:focus,input[type=password]:focus,textarea:focus,select:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
 select option{background:#111;color:#fff}
 .drop{display:grid;place-items:center;text-align:center;gap:4px;padding:26px 14px;border:2px dashed rgba(255,255,255,.3);border-radius:20px;cursor:pointer;transition:.3s;margin-bottom:14px}
 .drop:hover,.drop.over{border-color:#fff;background:rgba(255,255,255,.08);transform:scale(1.02)}
@@ -145,6 +147,40 @@ small{opacity:.78}
 .mq div{display:inline-block;font:800 var(--mfs,clamp(3rem,8vw,7rem))/1 Syne,sans-serif;color:transparent;-webkit-text-stroke:1.2px rgba(255,255,255,.5);will-change:transform,opacity}
 .cls:hover{border-color:rgba(255,255,255,.2)}
 #net{position:fixed;inset:0;z-index:-2;pointer-events:none}
+textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
+.tools{position:fixed;top:14px;right:22px;z-index:22;display:flex;gap:8px}
+.ib{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;padding:0;background:rgba(255,255,255,.07);backdrop-filter:blur(18px) saturate(200%) brightness(1.15);-webkit-backdrop-filter:blur(18px) saturate(200%) brightness(1.15);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 30px rgba(0,0,0,.45),inset 0 1px 1px rgba(255,255,255,.5);transition:.25s}
+.ib:hover{background:rgba(255,255,255,.2)}
+.ib svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ib i{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:99px;background:#fff;color:#000;font:600 .72rem/19px 'Instrument Sans',sans-serif;text-align:center;font-style:normal}
+#np{position:fixed;top:70px;right:22px;z-index:23;width:min(380px,calc(100vw - 44px));padding:18px;max-height:70vh;overflow:auto}
+#np .hd2,.ch2{display:flex;justify-content:space-between;align-items:center;gap:10px}
+#np h2{margin:0;font-size:1.15rem}
+.nl{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.nl li{display:grid;gap:2px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.05)}
+.nl li.new{box-shadow:inset 3px 0 #fff;background:rgba(255,255,255,.1)}
+.ov{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:grid;place-items:start center;padding:12vh 16px 16px;overflow:auto}
+.box{width:min(620px,100%);padding:26px}
+.sr{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:10px}
+.sr li{padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.06);display:grid;gap:8px}
+.dc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px}
+.calg{display:grid;grid-template-columns:1fr minmax(300px,380px);gap:22px;align-items:start;padding-top:40px}
+@media(max-width:900px){.calg{grid-template-columns:1fr}}
+.pnl{padding:24px;margin-bottom:22px}
+.ch2{margin-bottom:14px}.ch2 h2{margin:0}
+.dow,.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dow span{text-align:center;font-size:.8rem;opacity:.75;padding:4px 0}
+.day{aspect-ratio:1;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.04);color:inherit;display:grid;place-items:center;position:relative;transition:.25s}
+.day:hover{background:rgba(255,255,255,.16)}
+.day.td{border-color:#fff}
+.day.on{background:#fff;color:#000;font-weight:600}
+.day.ev::after{content:'';position:absolute;bottom:18%;width:5px;height:5px;border-radius:50%;background:currentColor}
+.day.blank{visibility:hidden}
+.evl{list-style:none;margin:0 0 16px;padding:0}
+.evl li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid rgba(255,255,255,.12)}
+.evl .sb{padding:4px 12px;font-size:.82rem}
+#af input{flex:1;width:auto;min-width:0}#af{flex-wrap:nowrap}
+.ar{margin:14px 0 0;min-height:1.4em;opacity:.9;white-space:pre-wrap}
 </style>
 </head>
 <body>
@@ -171,8 +207,23 @@ small{opacity:.78}
     <button class="tab on" data-k="NIT">NIT Srinagar</button>
     <button class="tab" data-k="IIT">IIT Madras</button>
     <button class="tab" data-k="PROJ">Projects and Stuff</button>
+    <button class="tab" data-k="CAL">Calendar</button>
   </nav>
 </div></header>
+<div class="tools">
+  <button class="ib" id="bSearch" aria-label="Search PDFs"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
+  <button class="ib" id="bBell" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg><i id="badge" hidden>0</i></button>
+  <button class="ib" id="bSet" aria-label="AI settings"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
+</div>
+<aside id="np" class="glass" hidden><div class="hd2"><h2>Notifications</h2><span class="acts"><button class="sb" id="nr">Mark read</button><button class="sb" id="nx">Clear</button></span></div><ul class="nl" id="nl"></ul></aside>
+<div class="ov" id="ovS" hidden><div class="box glass"><h2>Search your PDFs</h2>
+  <form id="sform" class="addc"><input type="text" id="sq" placeholder="Search names and descriptions" autocomplete="off" style="flex:1;width:auto"><button class="sb" type="submit">Ask AI</button></form>
+  <small id="sn"></small><ul class="sr" id="sr"></ul></div></div>
+<div class="ov" id="ovG" hidden><div class="box glass"><h2>AI settings</h2>
+  <p><small>Your key is saved only in this browser. To keep it off the device entirely, use a proxy URL instead (see the setup steps).</small></p>
+  <label class="f"><span>Groq API key</span><input type="password" id="gk" autocomplete="off" placeholder="gsk_..."></label>
+  <label class="f"><span>Proxy URL (optional, replaces the key)</span><input type="text" id="gp" placeholder="https://your-worker.workers.dev"></label>
+  <span class="acts"><button class="sb on" id="gs">Save</button><button class="sb" id="gc">Clear</button></span></div></div>
 
 <div class="wrap">
   <section class="hero" id="hero">
@@ -191,6 +242,7 @@ small{opacity:.78}
         <label class="drop" id="drop"><span class="dot"></span><b id="dn">Drop a PDF here</b><small id="ds">or click to browse</small>
           <input type="file" id="file" accept="application/pdf,.pdf"></label>
         <label class="f"><span>Name</span><input type="text" id="nm" placeholder="e.g. Chemistry unit 2 notes" autocomplete="off"></label>
+        <label class="f"><span>About this PDF (optional)</span><textarea id="dsc" rows="3" placeholder="What it covers, or the prompt used to generate it. AI search reads this."></textarea></label>
         <label class="f"><span>Class</span><select id="cs"></select></label>
         <span class="chip" id="chip"></span>
         <button class="go-btn" id="btn" type="submit"><span>Add to shelf</span></button>
@@ -208,7 +260,22 @@ small{opacity:.78}
       <div class="cards" id="cards"></div>
     </section>
   </div>
-  <p class="note">PDFs are saved in this browser only, so they won't appear on other devices or after clearing site data.</p>
+  <div class="calg" id="cal" hidden>
+  <section class="glass pnl">
+    <div class="ch2"><button class="sb" id="cp">Prev</button><h2 id="cmT"></h2><button class="sb" id="cn">Next</button></div>
+    <div class="dow"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+    <div class="cgrid" id="cg"></div>
+  </section>
+  <div>
+    <section class="glass pnl"><h2 id="cdT"></h2><ul class="evl" id="cl"></ul>
+      <form id="cf"><label class="f"><span>What's happening</span><input type="text" id="ct" placeholder="e.g. Chemistry lab viva" autocomplete="off"></label>
+      <label class="f"><span>Time</span><input type="time" id="ctm" value="09:00"></label>
+      <label class="f"><span>Notes (optional)</span><textarea id="cnt" rows="2"></textarea></label>
+      <button class="go-btn" type="submit">Add to calendar</button></form></section>
+    <section class="glass pnl"><h2>Ask the AI</h2><form id="af" class="addc"><input type="text" id="aq" placeholder="e.g. BEE quiz next Friday 2pm" autocomplete="off"><button class="sb" type="submit">Ask</button></form><p class="ar" id="ar"></p></section>
+  </div>
+</div>
+<p class="note">PDFs are saved in this browser only, so they won't appear on other devices or after clearing site data.</p>
 </div>
 <div id="toast" class="glass" role="status"></div>
 
@@ -220,7 +287,8 @@ const g=l=>[l,l,l];
 const S={
   NIT:{label:'NIT Srinagar',base:['Basic Electrical Engg (BEE)','English','Mathematics','Chemistry','Engg Drawing'],ink:g(4),cols:[g(210),g(150),g(100),g(60)]},
   IIT:{label:'IIT Madras',base:['Statistics','Mathematics II'],ink:g(8),cols:[g(170),g(215),g(110),g(70)]},
-  PROJ:{label:PROJ,ink:g(0),cols:[g(215),g(90),g(190),g(50)]}
+  PROJ:{label:PROJ,ink:g(0),cols:[g(215),g(90),g(190),g(50)]},
+  CAL:{label:'Calendar',ink:g(2),cols:[g(190),g(110),g(160),g(60)]}
 };
 const AL={
   'Basic Electrical Engg (BEE)':['electrical','circuit','electronics'],
@@ -263,14 +331,15 @@ async function count(text,ms){
 }
 async function wipe(text,fn){
   $('#loader').classList.remove('done');await sleep(650);
-  fn();scrollTo({top:$('#app').offsetTop-70});await count(text,600);$('#loader').classList.add('done');
+  fn();scrollTo({top:($('#cal').hidden?$('#app'):$('#cal')).offsetTop-70});await count(text,600);$('#loader').classList.add('done');
 }
 
 /* render */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
 function actions(f){return `<div class="acts"><button class="sb" data-a="open" data-id="${f.id}">Open</button><button class="sb" data-a="dl" data-id="${f.id}">Download</button><button class="sb" data-a="del" data-id="${f.id}">Delete</button></div>`}
-const meta=f=>`<small>${fmt(f.size)}, added ${new Date(f.at).toLocaleDateString()}</small>`;
+const meta=f=>`<small>${fmt(f.size)}, added ${new Date(f.at).toLocaleDateString()}</small>`+(f.desc?`<small class="dc">${esc(f.desc)}</small>`:'');
 function render(){
+  if(view==='CAL'){renderCal();return}
   const box=$('#cards'),open=$$('.cls.open').map(e=>e.dataset.c);box.innerHTML='';
   $('#addc').hidden=view==='PROJ';$('#pills').hidden=view!=='PROJ';
   $('#st').textContent=view==='PROJ'?PROJ:S[view].label+' shelves';
@@ -301,7 +370,7 @@ function chip(){
   c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');
 }
 function setView(v){
-  view=v;if(v!=='PROJ')cur=v;
+  view=v;if(v==='NIT'||v==='IIT')cur=v;$('#app').hidden=v==='CAL';$('#cal').hidden=v!=='CAL';
   $('#sch').value=cur;$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===v));$('.tabs').dataset.k=v;
   const ind=$('.ind');ind.classList.remove('sq');void ind.offsetWidth;ind.classList.add('sq');
   $('#mqt').textContent=S[v].label;fitMq();
@@ -309,13 +378,13 @@ function setView(v){
 }
 function fitMq(){const m=$('#mqt'),pw=m.parentElement.clientWidth;m.style.fontSize='';const w=m.offsetWidth;if(w>pw)m.style.fontSize=parseFloat(getComputedStyle(m).fontSize)*pw/w*.96+'px'}
 if(document.fonts)document.fonts.ready.then(fitMq);
-const goto=v=>v===view?Promise.resolve():wipe(v==='PROJ'?'Opening projects':'Rehanging '+S[v].label,()=>setView(v));
+const goto=v=>v===view?Promise.resolve():wipe(v==='PROJ'?'Opening projects':v==='CAL'?'Opening calendar':'Rehanging '+S[v].label,()=>setView(v));
 
 /* events */
 $$('.tab').forEach(b=>b.onclick=()=>goto(b.dataset.k));
 $('#sch').onchange=e=>{cur=e.target.value;view==='PROJ'?fillSel():goto(cur)};
 $$('.pills .sb').forEach(b=>b.onclick=()=>{pf=b.dataset.p;render()});
-$('#cue').onclick=()=>$('#app').scrollIntoView({behavior:'smooth'});
+$('#cue').onclick=()=>($('#cal').hidden?$('#app'):$('#cal')).scrollIntoView({behavior:'smooth'});
 $('#nm').oninput=chip;$('#cs').onchange=chip;
 function pick(f){
   if(!f)return;
@@ -336,7 +405,7 @@ $('#form').onsubmit=async e=>{
   if(!name){toast('Give the PDF a name.');$('#nm').focus();return}
   btn.classList.add('busy');lab.textContent='Filing…';await sleep(900);
   const s=$('#cs').value,cls=s==='auto'?classify(name,cur):s;
-  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2),name,school:cur,cls,size:picked.size,at:Date.now(),blob:picked};
+  const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2),name,school:cur,cls,size:picked.size,at:Date.now(),blob:picked,desc:$('#dsc').value.trim()};
   const reset=()=>{btn.classList.remove('busy');lab.textContent='Add to shelf'};
   try{await tx('readwrite',st=>st.put(rec))}catch(err){toast('Could not save. Check that browser storage is allowed.');reset();return}
   files.push(rec);
@@ -463,6 +532,99 @@ initNet();addEventListener('resize',initNet);
   });
 })();
 
+/* ---------- storage, AI, search, calendar, notifications ---------- */
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const pad=n=>String(n).padStart(2,'0'),dstr=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const fmtT=d=>d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
+let events=ld('folio-events',[]),notifs=ld('folio-notifs',[]),set=ld('folio-set',{}),cm=new Date(),sel=dstr(new Date());
+
+async function ai(sys,user){
+  if(!set.proxy&&!set.key)throw new Error('Add your Groq key in AI settings first.');
+  const r=await fetch(set.proxy||'https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json',...(set.proxy?{}:{Authorization:'Bearer '+set.key})},body:JSON.stringify({model:'llama-3.3-70b-versatile',temperature:.2,response_format:{type:'json_object'},messages:[{role:'system',content:sys},{role:'user',content:user}]})});
+  if(!r.ok)throw new Error('AI request failed ('+r.status+'). Check your key or proxy in AI settings.');
+  return JSON.parse((await r.json()).choices[0].message.content);
+}
+const panels=()=>{$('#ovS').hidden=$('#ovG').hidden=$('#np').hidden=true};
+addEventListener('keydown',e=>{if(e.key==='Escape')panels()});
+document.addEventListener('click',e=>{if(!$('#np').hidden&&!e.target.closest('#np,#bBell'))$('#np').hidden=true;if(e.target.classList.contains('ov'))panels()});
+
+$('#bSet').onclick=()=>{panels();$('#gk').value=set.key||'';$('#gp').value=set.proxy||'';$('#ovG').hidden=false};
+$('#gs').onclick=()=>{set={key:$('#gk').value.trim(),proxy:$('#gp').value.trim()};sv('folio-set',set);panels();toast('AI settings saved')};
+$('#gc').onclick=()=>{set={};sv('folio-set',set);$('#gk').value=$('#gp').value='';toast('AI settings cleared')};
+
+const SYS='You match a search query to a student\'s PDF library. Reply with JSON only: {"ids":["best match id first, up to 8"],"note":"one short sentence"}. Judge by meaning, not only exact words, using each document\'s name, class, school and "about" text. Include only relevant documents.';
+function localHits(q){const t=q.toLowerCase().split(/\s+/).filter(Boolean);if(!t.length)return files.slice(0,8);
+  return files.map(f=>{const h=(f.name+' '+(f.desc||'')+' '+f.cls+' '+S[f.school].label).toLowerCase();return[f,t.filter(w=>h.includes(w)).length]}).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]).slice(0,8)}
+function showRes(list,note){
+  $('#sr').innerHTML=list.length?list.map(f=>`<li><div><b>${esc(f.name)}</b><br><small>${esc(f.cls)}, ${S[f.school].label}${f.desc?': '+esc(f.desc.slice(0,110)):''}</small></div><div class="acts"><button class="sb" data-a="s-open" data-id="${f.id}">Open</button><button class="sb" data-a="s-show" data-id="${f.id}">Show on shelf</button></div></li>`).join(''):'<li><small>No PDFs match. Try other words, or ask the AI.</small></li>';
+  $('#sn').textContent=note||'';
+}
+$('#bSearch').onclick=()=>{panels();$('#ovS').hidden=false;$('#sq').focus();showRes(localHits($('#sq').value),'')};
+$('#sq').oninput=e=>showRes(localHits(e.target.value),'');
+$('#sform').onsubmit=async e=>{
+  e.preventDefault();const q=$('#sq').value.trim();if(!q||!files.length){showRes([],'');return}
+  $('#sn').textContent='Asking the AI…';
+  try{const r=await ai(SYS,JSON.stringify({query:q,documents:files.map(f=>({id:f.id,name:f.name,class:f.cls,school:S[f.school].label,about:f.desc||''}))}));
+    showRes((r.ids||[]).map(id=>files.find(f=>f.id===id)).filter(Boolean),r.note||'')}
+  catch(err){showRes(localHits(q),err.message+' Showing keyword matches instead.')}
+};
+$('#sr').onclick=async e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;const f=files.find(x=>x.id===b.dataset.id);if(!f)return;
+  if(b.dataset.a==='s-open')return void window.open(URL.createObjectURL(f.blob),'_blank');
+  panels();const v=f.cls===PROJ?'PROJ':f.school;if(v==='PROJ')pf='ALL';if(view!==v)await goto(v);else render();
+  await sleep(200);const card=v==='PROJ'?$(`[data-f="${f.id}"]`):$$('.cls').find(c=>c.dataset.c===f.cls);
+  if(card){if(v!=='PROJ')card.classList.add('open');card.classList.add('flash');card.scrollIntoView({behavior:'smooth',block:'center'})}
+};
+
+function renderCal(){
+  const y=cm.getFullYear(),m=cm.getMonth(),first=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate(),today=dstr(new Date());
+  $('#cmT').textContent=cm.toLocaleString('en',{month:'long',year:'numeric'});
+  let h='<span class="day blank"></span>'.repeat(first);
+  for(let d=1;d<=n;d++){const k=y+'-'+pad(m+1)+'-'+pad(d);h+=`<button class="day${k===today?' td':''}${k===sel?' on':''}${events.some(e=>e.at.startsWith(k))?' ev':''}" data-d="${k}">${d}</button>`}
+  $('#cg').innerHTML=h;
+  $('#cdT').textContent=new Date(sel+'T00:00').toLocaleDateString('en',{weekday:'long',day:'numeric',month:'long'});
+  const list=events.filter(e=>e.at.startsWith(sel)).sort((a,b)=>a.at.localeCompare(b.at));
+  $('#cl').innerHTML=list.length?list.map(e=>`<li><div><b>${fmtT(new Date(e.at))}</b> ${esc(e.title)}${e.notes?`<br><small>${esc(e.notes)}</small>`:''}</div><button class="sb" data-x="${e.id}">Delete</button></li>`).join(''):'<li><small>Nothing planned for this day. Add something below.</small></li>';
+}
+const addEv=(title,notes,at)=>{events.push({id:Date.now().toString(36)+Math.random().toString(36).slice(2),title,notes:notes||'',at,fired:{}});sv('folio-events',events);checkN()};
+$('#cp').onclick=()=>{cm=new Date(cm.getFullYear(),cm.getMonth()-1,1);renderCal()};
+$('#cn').onclick=()=>{cm=new Date(cm.getFullYear(),cm.getMonth()+1,1);renderCal()};
+$('#cg').onclick=e=>{const b=e.target.closest('[data-d]');if(b){sel=b.dataset.d;renderCal()}};
+$('#cl').onclick=e=>{const b=e.target.closest('[data-x]');if(!b)return;events=events.filter(x=>x.id!==b.dataset.x);sv('folio-events',events);renderCal();toast('Event deleted')};
+$('#cf').onsubmit=e=>{
+  e.preventDefault();const t=$('#ct').value.trim();if(!t){toast('Write what is happening first.');return}
+  addEv(t,$('#cnt').value.trim(),sel+'T'+($('#ctm').value||'09:00'));$('#ct').value=$('#cnt').value='';renderCal();toast('Added to calendar');
+};
+$('#af').onsubmit=async e=>{
+  e.preventDefault();const q=$('#aq').value.trim(),out=$('#ar');if(!q)return;out.textContent='Thinking…';
+  const sys=`You are the scheduling assistant inside a student's calendar app. Current local date and time: ${new Date().toString()}. Existing events: ${JSON.stringify(events.map(x=>({title:x.title,at:x.at,notes:x.notes})))}. Reply with JSON only: {"reply":"short friendly text","events":[{"title":"","notes":"","at":"YYYY-MM-DDTHH:mm"}]}. Fill "events" only when the user asks to add, schedule or remind something; resolve words like "next Friday" from the current date and use 09:00 if no time is given. For questions, answer in "reply" and leave "events" empty.`;
+  try{const r=await ai(sys,q),ev=(r.events||[]).filter(x=>x.title&&/^\d{4}-\d\d-\d\dT\d\d:\d\d/.test(x.at));
+    ev.forEach(x=>addEv(x.title,x.notes,x.at.slice(0,16)));
+    if(ev.length){sel=ev[0].at.slice(0,10);cm=new Date(sel+'T00:00')}
+    out.textContent=(r.reply||'Done.')+(ev.length?`\nAdded ${ev.length} event${ev.length>1?'s':''}.`:'');$('#aq').value='';renderCal()}
+  catch(err){out.textContent=err.message}
+};
+
+function checkN(){
+  const now=Date.now();let ch=false;
+  events.forEach(e=>{
+    const at=+new Date(e.at);if(at<=now)return;e.fired=e.fired||{};
+    const due=[['d1',at-864e5],['h3',at-108e5]].filter(([k,t])=>t<=now&&!e.fired[k]);if(!due.length)return;
+    due.forEach(([k])=>e.fired[k]=1);ch=true;
+    const k=due[due.length-1][0],txt=k==='d1'?`Tomorrow at ${fmtT(new Date(e.at))}: ${e.title}`:`In about 3 hours (${fmtT(new Date(e.at))}): ${e.title}`;
+    notifs.unshift({id:Date.now()+Math.random(),txt,at:now,read:false});
+    if(window.Notification&&Notification.permission==='granted')new Notification('Folio',{body:txt});
+  });
+  if(ch){sv('folio-events',events);sv('folio-notifs',notifs);renderN()}
+}
+function renderN(){
+  const u=notifs.filter(n=>!n.read).length,b=$('#badge');b.hidden=!u;b.textContent=u;
+  $('#nl').innerHTML=notifs.length?notifs.slice(0,30).map(n=>`<li class="${n.read?'':'new'}"><span>${esc(n.txt)}</span><small>${new Date(n.at).toLocaleString([],{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'})}</small></li>`).join(''):'<li><small>Nothing yet. Calendar events remind you one day and three hours before.</small></li>';
+}
+$('#bBell').onclick=()=>{const o=$('#np').hidden;panels();$('#np').hidden=!o;if(o&&window.Notification&&Notification.permission==='default')Notification.requestPermission()};
+$('#nr').onclick=()=>{notifs.forEach(n=>n.read=true);sv('folio-notifs',notifs);renderN()};
+$('#nx').onclick=()=>{notifs=[];sv('folio-notifs',notifs);renderN()};
+
 /* boot */
 (async()=>{
   const h=$('h1');let n=0;
@@ -470,7 +632,7 @@ initNet();addEventListener('resize',initNet);
   letters=$$('h1 .w span');
   try{files=await tx('readonly',s=>s.getAll())||[]}catch(e){files=[]}
   for(const f of files)if(f.cls==='Statistics and Mathematics II'){f.cls='Statistics';try{await tx('readwrite',s=>s.put(f))}catch(e){}}
-  setView('NIT');
+  setView('NIT');renderN();checkN();setInterval(checkN,30000);
   await count('Hanging the gallery',2200);
   $('#loader').classList.add('done');
   document.body.classList.add('go');
