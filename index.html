@@ -199,7 +199,7 @@ input[type=date]:focus,input[type=number]:focus{border-color:#fff;box-shadow:0 0
 <svg class="s2" data-d="-40" width="280" height="140" viewBox="0 0 280 140"><path d="M4 138A136 136 0 0 1 276 138Z"/></svg>
 <svg class="s3" data-d="80" width="170" height="160" viewBox="0 0 170 160"><path d="M85 4 166 156H4Z"/></svg>
 <svg class="s4" data-d="-90" width="4" height="360" viewBox="0 0 4 360"><path d="M2 0V360"/></svg>
-<svg class="s5" data-d="30" width="120" height="120" viewBox="0 0 120 120"><defs><pattern id="dp" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6"/></pattern></defs><rect width="120" height="120" fill="url(#dp)"/></svg>
+<svg class="s5" data-d="30" width="120" height="120" viewBox="0 0 120 120"><defs><pattern id="dp" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.6"/></pattern></defs><rect width="120" height="120" fill="(#dp)"/></svg>
 </div>
 <canvas id="net"></canvas>
 <div class="vig"></div>
@@ -228,14 +228,14 @@ input[type=date]:focus,input[type=number]:focus{border-color:#fff;box-shadow:0 0
   <form id="sform" class="addc"><input type="text" id="sq" placeholder="Search names and descriptions" autocomplete="off" style="flex:1;width:auto"><button class="sb" type="submit">Ask AI</button></form>
   <small id="sn"></small><ul class="sr" id="sr"></ul></div></div>
 <div class="ov" id="ovG" hidden><div class="box glass"><h2>AI settings</h2>
-  <p><small>Your key is saved only in this browser. To keep it off the device entirely, use a proxy URL instead (see the setup steps).</small></p>
+  <p><small>Your key is saved only in this browser. To keep it off the device entirely, use a proxy  instead (see the setup steps).</small></p>
   <label class="f"><span>Groq API key</span><input type="password" id="gk" autocomplete="off" placeholder="gsk_..."></label>
-  <label class="f"><span>Proxy URL (optional, replaces the key)</span><input type="text" id="gp" placeholder="https://your-worker.workers.dev"></label>
+  <label class="f"><span>Proxy  (optional, replaces the key)</span><input type="text" id="gp" placeholder="https://your-worker.workers.dev"></label>
   <span class="acts"><button class="sb on" id="gs">Save</button><button class="sb" id="gc">Clear</button></span></div></div>
 
 <div class="ov" id="ovC" hidden><div class="box glass"><h2>Sync across devices</h2>
   <p><small id="cst"></small></p>
-  <div id="cfgBox"><label class="f"><span>Supabase project URL</span><input type="text" id="cu" placeholder="https://xxxx.supabase.co" autocomplete="off"></label>
+  <div id="cfgBox"><label class="f"><span>Supabase project </span><input type="text" id="cu" placeholder="https://xxxx.supabase.co" autocomplete="off"></label>
     <label class="f"><span>Supabase anon (public) key</span><input type="text" id="ck" autocomplete="off"></label>
     <button class="sb on" id="ccs">Connect</button></div>
   <div id="authBox" hidden><label class="f"><span>Email</span><input type="text" id="ce" inputmode="email" autocomplete="email"></label>
@@ -317,8 +317,8 @@ input[type=date]:focus,input[type=number]:focus{border-color:#fff;box-shadow:0 0
 <div id="toast" class="glass" role="status"></div>
 
 <script>
-/* Cloud sync: paste your free Supabase project URL and anon (public) key here once, and every device picks it up. */
-window.FOLIO_CLOUD={url:'https://lnqdzhqrqekmnugfnqou.supabase.co/rest/v1/',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWR6aHFycWVrbW51Z2ZucW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3Nzk5MDYsImV4cCI6MjEwNjM1NTkwNn0.HF1AuVIil__A_KGyKxYx0LMSXOCpxK4cpseFIc_KkAQ'};
+/* Cloud sync: paste your free Supabase project  and anon (public) key here once, and every device picks it up. */
+window.FOLIO_CLOUD={:'https://lnqdzhqrqekmnugfnqou.supabase.co/',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWR6aHFycWVrbW51Z2ZucW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3Nzk5MDYsImV4cCI6MjEwNjM1NTkwNn0.HF1AuVIil__A_KGyKxYx0LMSXOCpxK4cpseFIc_KkAQ'};
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -749,11 +749,11 @@ $('#modes').onclick=e=>{const b=e.target.closest('[data-mo]');if(!b)return;nitMo
 /* ---------- cloud sync (Supabase free tier: no card needed) ---------- */
 const CLOUD=window.FOLIO_CLOUD||{},SYNCK=['folio-classes','folio-events','folio-att'],kvT={},BUCKET='pdfs';
 let sb=null,user=null,syncing=false,again=false,syncErr='',lastSync=0,pdel=ld('folio-pdel',[]),ps;
-const cfg=()=>CLOUD.url&&CLOUD.key?CLOUD:ld('folio-cloud',{}),put=f=>tx('readwrite',s=>s.put(f)),curKV=k=>k==='folio-classes'?custom:k==='folio-events'?events:att;
+const cfg=()=>CLOUD.&&CLOUD.key?CLOUD:ld('folio-cloud',{}),put=f=>tx('readwrite',s=>s.put(f)),curKV=k=>k==='folio-classes'?custom:k==='folio-events'?events:att;
 const pushSoon=()=>{clearTimeout(ps);ps=setTimeout(()=>syncAll(),600)};
 function initCloud(){
-  const c=cfg();if(sb||!window.supabase||!c.url||!c.key)return;
-  sb=window.supabase.createClient(c.url,c.key);
+  const c=cfg();if(sb||!window.supabase||!c.||!c.key)return;
+  sb=window.supabase.createClient(c.,c.key);
   sb.auth.onAuthStateChange((_e,s)=>{user=s?s.user:null;renderCloud();if(user)setTimeout(syncAll,0)});
 }
 function cloudBoot(){
@@ -762,7 +762,7 @@ function cloudBoot(){
   addEventListener('visibilitychange',()=>{if(!document.hidden)syncAll()});addEventListener('online',()=>syncAll());
 }
 function renderCloud(msg){
-  const fixed=!!(CLOUD.url&&CLOUD.key);
+  const fixed=!!(CLOUD.&&CLOUD.key);
   $('#cfgBox').hidden=fixed||!!sb;$('#authBox').hidden=!sb||!!user;$('#outBox').hidden=!user;$('#cbadge').hidden=!user;$('#ccl').hidden=fixed;
   $('#cst').textContent=msg||(!sb?(window.supabase?'One-time setup: paste your Supabase project URL and anon key.':'Could not load the sync library. Check your connection and reload.'):!user?'Sign in or create an account so PDFs, classes, calendar and attendance follow you to every device.':syncErr?'Sync problem: '+syncErr:'Signed in as '+user.email+(lastSync?'. Last synced '+fmtT(new Date(lastSync))+'.':'.'));
   $('#note').textContent=user?'Synced to your account. New PDFs upload in the background; on another device a PDF downloads the first time you open it.':'Not syncing yet. PDFs are saved in this browser only until you sign in with the cloud button at the top right.';
