@@ -181,6 +181,13 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
 .evl .sb{padding:4px 12px;font-size:.82rem}
 #af input{flex:1;width:auto;min-width:0}#af{flex-wrap:nowrap}
 .ar{margin:14px 0 0;min-height:1.4em;opacity:.9;white-space:pre-wrap}
+input[type=date],input[type=number]{width:100%;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.22);color:inherit;border-radius:14px;padding:12px 14px;font:inherit;outline:0;color-scheme:dark}
+input[type=date]:focus,input[type=number]:focus{border-color:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.12)}
+.sb.ab{background:#000;color:#fff;border-style:dashed;text-decoration:line-through}
+.bar{height:4px;border-radius:9px;background:rgba(255,255,255,.15);overflow:hidden;margin-top:6px}
+.bar b{display:block;height:100%;background:#fff;transition:width .5s}
+#modes{margin-top:40px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 </style>
 </head>
 <body>
@@ -213,6 +220,7 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
 <div class="tools">
   <button class="ib" id="bSearch" aria-label="Search PDFs"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
   <button class="ib" id="bBell" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg><i id="badge" hidden>0</i></button>
+  <button class="ib" id="bCloud" aria-label="Sync across devices"><svg viewBox="0 0 24 24"><path d="M7 18h10.5a4 4 0 0 0 .6-7.96A5.5 5.5 0 0 0 7.4 8.6 4.7 4.7 0 0 0 7 18z"/></svg><i id="cbadge" hidden>&#10003;</i></button>
   <button class="ib" id="bSet" aria-label="AI settings"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
 </div>
 <aside id="np" class="glass" hidden><div class="hd2"><h2>Notifications</h2><span class="acts"><button class="sb" id="nr">Mark read</button><button class="sb" id="nx">Clear</button></span></div><ul class="nl" id="nl"></ul></aside>
@@ -225,6 +233,16 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
   <label class="f"><span>Proxy URL (optional, replaces the key)</span><input type="text" id="gp" placeholder="https://your-worker.workers.dev"></label>
   <span class="acts"><button class="sb on" id="gs">Save</button><button class="sb" id="gc">Clear</button></span></div></div>
 
+<div class="ov" id="ovC" hidden><div class="box glass"><h2>Sync across devices</h2>
+  <p><small id="cst"></small></p>
+  <div id="cfgBox"><label class="f"><span>Supabase project URL</span><input type="text" id="cu" placeholder="https://xxxx.supabase.co" autocomplete="off"></label>
+    <label class="f"><span>Supabase anon (public) key</span><input type="text" id="ck" autocomplete="off"></label>
+    <button class="sb on" id="ccs">Connect</button></div>
+  <div id="authBox" hidden><label class="f"><span>Email</span><input type="text" id="ce" inputmode="email" autocomplete="email"></label>
+    <label class="f"><span>Password (6+ characters)</span><input type="password" id="cpw" autocomplete="current-password"></label>
+    <span class="acts"><button class="sb on" id="cin">Sign in</button><button class="sb" id="cup">Create account</button><button class="sb" id="ccl">Change project</button></span></div>
+  <div id="outBox" hidden><span class="acts"><button class="sb on" id="csy">Sync now</button><button class="sb" id="cout">Sign out</button></span></div></div></div>
+
 <div class="wrap">
   <section class="hero" id="hero">
     <h1>Every PDF, in its place.</h1>
@@ -233,6 +251,7 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
   </section>
 
   <div class="mq" aria-hidden="true"><div id="mqt">NIT Srinagar</div></div>
+  <div class="pills" id="modes" hidden><button class="sb on" data-mo="shelves">PDF shelves</button><button class="sb" data-mo="att">Attendance</button></div>
   <div class="grid" id="app">
     <section id="up" class="glass">
       <h2>Add a PDF</h2>
@@ -260,6 +279,24 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
       <div class="cards" id="cards"></div>
     </section>
   </div>
+  <div class="calg" id="att" hidden>
+    <div>
+      <section class="glass pnl"><div class="ch2"><button class="sb" id="awp">Prev</button><h2 id="awT"></h2><button class="sb" id="awn">Next</button></div>
+        <span class="acts"><button class="sb" id="awt">This week</button></span></section>
+      <div id="aweek"></div>
+    </div>
+    <div>
+      <section class="glass pnl"><h2>Tracking</h2>
+        <div class="two"><label class="f"><span>Starts on</span><input type="date" id="as"></label><label class="f"><span>Ends on</span><input type="date" id="ae"></label></div>
+        <div class="two"><label class="f"><span>My lab group</span><select id="ag"><option>A</option><option>B</option></select></label><label class="f"><span>Target %</span><input type="number" id="at" min="1" max="99"></label></div>
+        <small>Timetable: Autumn 2026, Semester I (Mechanical), Civil Attic 4. Leave the dates empty to track every week. Percentages count periods, so a 2-period lab counts twice.</small></section>
+      <section class="glass pnl"><h2>Attendance</h2><ul class="evl" id="asum"></ul></section>
+      <section class="glass pnl"><h2>Add an extra class</h2><form id="xf">
+        <label class="f"><span>Date</span><input type="date" id="xd"></label>
+        <div class="two"><label class="f"><span>Subject</span><select id="xs"></select></label><label class="f"><span>Periods</span><input type="number" id="xn" min="1" max="4" value="1"></label></div>
+        <button class="go-btn" type="submit">Add extra class</button></form></section>
+    </div>
+  </div>
   <div class="calg" id="cal" hidden>
   <section class="glass pnl">
     <div class="ch2"><button class="sb" id="cp">Prev</button><h2 id="cmT"></h2><button class="sb" id="cn">Next</button></div>
@@ -275,10 +312,15 @@ textarea{resize:vertical;min-height:70px}input[type=time]{color-scheme:dark}
     <section class="glass pnl"><h2>Ask the AI</h2><form id="af" class="addc"><input type="text" id="aq" placeholder="e.g. BEE quiz next Friday 2pm" autocomplete="off"><button class="sb" type="submit">Ask</button></form><p class="ar" id="ar"></p></section>
   </div>
 </div>
-<p class="note">PDFs are saved in this browser only, so they won't appear on other devices or after clearing site data.</p>
+<p class="note" id="note"></p>
 </div>
 <div id="toast" class="glass" role="status"></div>
 
+<script>
+/* Cloud sync: paste your free Supabase project URL and anon (public) key here once, and every device picks it up. */
+window.FOLIO_CLOUD={url:'https://lnqdzhqrqekmnugfnqou.supabase.co/rest/v1/',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxucWR6aHFycWVrbW51Z2ZucW91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA3Nzk5MDYsImV4cCI6MjEwNjM1NTkwNn0.HF1AuVIil__A_KGyKxYx0LMSXOCpxK4cpseFIc_KkAQ'};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -301,7 +343,7 @@ const AL={
 };
 let view='NIT',cur='NIT',pf='ALL',files=[],custom={NIT:[],IIT:[]},picked=null;
 try{Object.assign(custom,JSON.parse(localStorage.getItem('folio-classes')||'{}'))}catch(e){}
-const saveC=()=>{try{localStorage.setItem('folio-classes',JSON.stringify(custom))}catch(e){}};
+const saveC=()=>sv('folio-classes',custom);
 const classes=k=>[...S[k].base,...custom[k]];
 const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB';
@@ -331,7 +373,7 @@ async function count(text,ms){
 }
 async function wipe(text,fn){
   $('#loader').classList.remove('done');await sleep(650);
-  fn();scrollTo({top:($('#cal').hidden?$('#app'):$('#cal')).offsetTop-70});await count(text,600);$('#loader').classList.add('done');
+  fn();scrollTo({top:tgt().offsetTop-70});await count(text,600);$('#loader').classList.add('done');
 }
 
 /* render */
@@ -340,6 +382,7 @@ function actions(f){return `<div class="acts"><button class="sb" data-a="open" d
 const meta=f=>`<small>${fmt(f.size)}, added ${new Date(f.at).toLocaleDateString()}</small>`+(f.desc?`<small class="dc">${esc(f.desc)}</small>`:'');
 function render(){
   if(view==='CAL'){renderCal();return}
+  if(view==='NIT'&&nitMode==='att'){renderAtt();return}
   const box=$('#cards'),open=$$('.cls.open').map(e=>e.dataset.c);box.innerHTML='';
   $('#addc').hidden=view==='PROJ';$('#pills').hidden=view!=='PROJ';
   $('#st').textContent=view==='PROJ'?PROJ:S[view].label+' shelves';
@@ -370,7 +413,7 @@ function chip(){
   c.classList.remove('pop');void c.offsetWidth;c.classList.add('pop');
 }
 function setView(v){
-  view=v;if(v==='NIT'||v==='IIT')cur=v;$('#app').hidden=v==='CAL';$('#cal').hidden=v!=='CAL';
+  view=v;if(v==='NIT'||v==='IIT')cur=v;applyMode();
   $('#sch').value=cur;$$('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===v));$('.tabs').dataset.k=v;
   const ind=$('.ind');ind.classList.remove('sq');void ind.offsetWidth;ind.classList.add('sq');
   $('#mqt').textContent=S[v].label;fitMq();
@@ -384,7 +427,7 @@ const goto=v=>v===view?Promise.resolve():wipe(v==='PROJ'?'Opening projects':v===
 $$('.tab').forEach(b=>b.onclick=()=>goto(b.dataset.k));
 $('#sch').onchange=e=>{cur=e.target.value;view==='PROJ'?fillSel():goto(cur)};
 $$('.pills .sb').forEach(b=>b.onclick=()=>{pf=b.dataset.p;render()});
-$('#cue').onclick=()=>($('#cal').hidden?$('#app'):$('#cal')).scrollIntoView({behavior:'smooth'});
+$('#cue').onclick=()=>tgt().scrollIntoView({behavior:'smooth'});
 $('#nm').oninput=chip;$('#cs').onchange=chip;
 function pick(f){
   if(!f)return;
@@ -408,7 +451,7 @@ $('#form').onsubmit=async e=>{
   const rec={id:Date.now().toString(36)+Math.random().toString(36).slice(2),name,school:cur,cls,size:picked.size,at:Date.now(),blob:picked,desc:$('#dsc').value.trim()};
   const reset=()=>{btn.classList.remove('busy');lab.textContent='Add to shelf'};
   try{await tx('readwrite',st=>st.put(rec))}catch(err){toast('Could not save. Check that browser storage is allowed.');reset();return}
-  files.push(rec);
+  files.push(rec);pushSoon();
   const target=cls===PROJ?'PROJ':cur;
   if(target==='PROJ')pf='ALL';
   if(view!==target)await goto(target);else render();
@@ -423,10 +466,10 @@ $('#cards').onclick=async e=>{
   if(ch){const c=ch.parentElement;c.classList.toggle('open');ch.setAttribute('aria-expanded',c.classList.contains('open'));return}
   const b=e.target.closest('[data-a]');if(!b)return;
   const f=files.find(x=>x.id===b.dataset.id);if(!f)return;
-  if(b.dataset.a==='open')window.open(URL.createObjectURL(f.blob),'_blank');
-  if(b.dataset.a==='dl'){const a=document.createElement('a');a.href=URL.createObjectURL(f.blob);a.download=f.name+'.pdf';a.click()}
+  if(b.dataset.a==='open')openF(f);
+  if(b.dataset.a==='dl')dlF(f);
   if(b.dataset.a==='del'&&confirm('Delete "'+f.name+'"?')){
-    await tx('readwrite',st=>st.delete(f.id));files=files.filter(x=>x.id!==f.id);render();toast('Deleted');
+    await tx('readwrite',st=>st.delete(f.id));files=files.filter(x=>x.id!==f.id);if(f.synced){pdel.push(f.id);sv('folio-pdel',pdel);pushSoon()}render();toast('Deleted');
   }
 };
 $('#addc').onsubmit=e=>{
@@ -533,7 +576,7 @@ initNet();addEventListener('resize',initNet);
 })();
 
 /* ---------- storage, AI, search, calendar, notifications ---------- */
-const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}},sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}if(SYNCK.includes(k)){const ts=Date.now();try{localStorage.setItem('folio-ts-'+k,ts)}catch(e){}clearTimeout(kvT[k]);kvT[k]=setTimeout(()=>kvPush(k,v,ts).catch(()=>{}),700)}};
 const pad=n=>String(n).padStart(2,'0'),dstr=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
 const fmtT=d=>d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
 let events=ld('folio-events',[]),notifs=ld('folio-notifs',[]),set=ld('folio-set',{}),cm=new Date(),sel=dstr(new Date());
@@ -544,7 +587,7 @@ async function ai(sys,user){
   if(!r.ok)throw new Error('AI request failed ('+r.status+'). Check your key or proxy in AI settings.');
   return JSON.parse((await r.json()).choices[0].message.content);
 }
-const panels=()=>{$('#ovS').hidden=$('#ovG').hidden=$('#np').hidden=true};
+const panels=()=>{$('#ovS').hidden=$('#ovG').hidden=$('#ovC').hidden=$('#np').hidden=true};
 addEventListener('keydown',e=>{if(e.key==='Escape')panels()});
 document.addEventListener('click',e=>{if(!$('#np').hidden&&!e.target.closest('#np,#bBell'))$('#np').hidden=true;if(e.target.classList.contains('ov'))panels()});
 
@@ -570,7 +613,7 @@ $('#sform').onsubmit=async e=>{
 };
 $('#sr').onclick=async e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const f=files.find(x=>x.id===b.dataset.id);if(!f)return;
-  if(b.dataset.a==='s-open')return void window.open(URL.createObjectURL(f.blob),'_blank');
+  if(b.dataset.a==='s-open')return void openF(f);
   panels();const v=f.cls===PROJ?'PROJ':f.school;if(v==='PROJ')pf='ALL';if(view!==v)await goto(v);else render();
   await sleep(200);const card=v==='PROJ'?$(`[data-f="${f.id}"]`):$$('.cls').find(c=>c.dataset.c===f.cls);
   if(card){if(v!=='PROJ')card.classList.add('open');card.classList.add('flash');card.scrollIntoView({behavior:'smooth',block:'center'})}
@@ -625,6 +668,176 @@ $('#bBell').onclick=()=>{const o=$('#np').hidden;panels();$('#np').hidden=!o;if(
 $('#nr').onclick=()=>{notifs.forEach(n=>n.read=true);sv('folio-notifs',notifs);renderN()};
 $('#nx').onclick=()=>{notifs=[];sv('folio-notifs',notifs);renderN()};
 
+/* ---------- attendance (NIT Srinagar) ---------- */
+const SLOT=['9:00','9:50','10:40','11:30','12:20','1:10','2:00','2:50','3:40','4:30','5:20'];
+const SUB={CP:'Computer Programming',EC:'Engineering Chemistry',ED:'Engineering Drawing',M:'Mathematics I',EN:'Basic English and Communication Skills',BEE:'Basic Electrical Engineering',CL:'Chemistry Laboratory',CPL:'Computer Programming Laboratory',FKA:'Fundamental Knowledge of Accreditation'};
+/* [subject, weekday (1=Mon), first period, periods, lab group] from the Autumn 2026 timetable */
+const TT=[['CP',1,3,1],['EC',1,5,1],['ED',1,7,4],
+  ['M',2,1,2],['EN',2,3,1],['EC',2,4,1],['BEE',2,5,1],['CP',2,7,1],['ED',2,8,1],['CL',2,9,2,'A'],
+  ['CPL',3,2,2,'A'],['M',3,4,1],['EC',3,5,1],['CP',3,8,1],['CL',3,9,2,'B'],
+  ['EN',4,1,1],['BEE',4,2,2],['FKA',4,7,2],
+  ['CPL',5,2,2,'B'],['EN',5,4,1]];
+const attDef=()=>({start:'',end:'',th:75,group:'A',marks:{},extra:[],removed:[]});
+let att=Object.assign(attDef(),ld('folio-att',{})),nitMode='shelves';
+const D=s=>new Date(s+'T00:00'),mon=d=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()-(x.getDay()+6)%7);return x};
+let aw=mon(new Date());
+const saveAtt=()=>sv('folio-att',att),inRange=k=>(!att.start||k>=att.start)&&(!att.end||k<=att.end);
+function sessionsOn(k){
+  const dw=D(k).getDay();
+  const base=TT.filter(t=>t[1]===dw&&(!t[4]||t[4]===att.group)).map(t=>({id:'t'+dw+'s'+t[2],sub:t[0],n:t[3],s:t[2]}));
+  return[...base.filter(x=>!att.removed.includes(k+'|'+x.id)),...att.extra.filter(x=>x.date===k).map(x=>({id:x.id,sub:x.sub,n:x.n,x:1}))];
+}
+function stats(){
+  const by={},tot={a:0,t:0};
+  for(const [key,m] of Object.entries(att.marks)){
+    const [d,id]=key.split('|');if(!inRange(d))continue;
+    const s=sessionsOn(d).find(x=>x.id===id);if(!s)continue;
+    const o=by[s.sub]||(by[s.sub]={a:0,t:0});o.t+=s.n;tot.t+=s.n;if(m==='P'){o.a+=s.n;tot.a+=s.n}
+  }
+  return{by,tot};
+}
+function hint(a,t,th){
+  if(!t)return 'nothing marked';const p=th/100;
+  if(a/t>=p){const k=Math.floor(a/p-t+1e-9);return k>0?'can miss '+k+' more':'right on target'}
+  return 'attend the next '+Math.ceil((p*t-a)/(1-p)-1e-9);
+}
+function renderAtt(){
+  $('#as').value=att.start;$('#ae').value=att.end;$('#ag').value=att.group;$('#at').value=att.th;
+  const e=new Date(aw);e.setDate(e.getDate()+6);const f=x=>x.toLocaleDateString('en',{day:'numeric',month:'short'});
+  $('#awT').textContent=f(aw)+' to '+f(e);
+  let h='';
+  for(let i=0;i<7;i++){
+    const d=new Date(aw);d.setDate(d.getDate()+i);const k=dstr(d),out=!inRange(k),ss=out?[]:sessionsOn(k),nr=att.removed.filter(r=>r.startsWith(k+'|')).length,wk=d.getDay()%6===0;
+    if(wk&&!ss.length&&!nr)continue;
+    h+=`<section class="glass pnl"><div class="ch2"><h2>${d.toLocaleDateString('en',{weekday:'short',day:'numeric',month:'short'})}</h2>${out?'':`<span class="acts">${ss.length?`<button class="sb" data-o="all" data-d="${k}">All present</button><button class="sb" data-o="off" data-d="${k}">Day off</button>`:''}${nr?`<button class="sb" data-o="rs" data-d="${k}">Restore ${nr}</button>`:''}</span>`}</div>`
+    +(out?'<small>Outside your tracking dates.</small>':ss.length?`<ul class="evl">${ss.map(s=>{const key=k+'|'+s.id,m=att.marks[key];
+      return `<li><div><b>${esc(SUB[s.sub])}</b><br><small>${s.x?'Extra class':SLOT[s.s-1]+' to '+SLOT[s.s-1+s.n]}, ${s.n} period${s.n>1?'s':''}</small></div><span class="acts"><button class="sb${m==='P'?' on':''}" data-m="P" data-k="${key}">Present</button><button class="sb${m==='A'?' ab':''}" data-m="A" data-k="${key}">Absent</button><button class="sb" data-rm="${key}">Remove</button></span></li>`}).join('')}</ul>`:'<small>No classes.</small>')+'</section>';
+  }
+  $('#aweek').innerHTML=h;
+  const {by,tot}=stats(),th=Math.min(99,Math.max(1,+att.th||75));
+  const row=(n,o)=>{const p=o.t?Math.round(o.a/o.t*100):0;return `<li><div style="flex:1"><b>${esc(n)}</b><br><small>${o.a} of ${o.t} periods, ${hint(o.a,o.t,th)}</small><div class="bar"><b style="width:${p}%"></b></div></div><b>${p}%</b></li>`};
+  $('#asum').innerHTML=(tot.t?row('Overall',tot):'')+Object.keys(SUB).filter(k=>by[k]).map(k=>row(SUB[k],by[k])).join('')||'<li><small>Mark classes Present or Absent and your percentages show up here.</small></li>';
+}
+$('#aweek').onclick=e=>{
+  const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.m){if(att.marks[d.k]===d.m)delete att.marks[d.k];else att.marks[d.k]=d.m}
+  else if(d.rm){const id=d.rm.split('|')[1];delete att.marks[d.rm];if(id[0]==='x')att.extra=att.extra.filter(x=>x.id!==id);else att.removed.push(d.rm)}
+  else if(d.o==='all')sessionsOn(d.d).forEach(s=>att.marks[d.d+'|'+s.id]='P');
+  else if(d.o==='off')sessionsOn(d.d).forEach(s=>{const k=d.d+'|'+s.id;delete att.marks[k];if(s.x)att.extra=att.extra.filter(x=>x.id!==s.id);else att.removed.push(k)});
+  else if(d.o==='rs')att.removed=att.removed.filter(r=>!r.startsWith(d.d+'|'));
+  else return;
+  saveAtt();renderAtt();
+};
+$('#awp').onclick=()=>{aw.setDate(aw.getDate()-7);renderAtt()};
+$('#awn').onclick=()=>{aw.setDate(aw.getDate()+7);renderAtt()};
+$('#awt').onclick=()=>{aw=mon(new Date());renderAtt()};
+[['#as','start'],['#ae','end'],['#ag','group'],['#at','th']].forEach(([s,k])=>$(s).onchange=e=>{att[k]=k==='th'?+e.target.value:e.target.value;saveAtt();renderAtt()});
+$('#xs').innerHTML=Object.entries(SUB).map(([k,v])=>`<option value="${k}">${v}</option>`).join('');$('#xd').value=dstr(new Date());
+$('#xf').onsubmit=e=>{
+  e.preventDefault();const d=$('#xd').value;if(!d){toast('Pick a date for the extra class.');return}
+  att.extra.push({id:'x'+Date.now().toString(36),date:d,sub:$('#xs').value,n:Math.max(1,Math.min(4,+$('#xn').value||1))});
+  saveAtt();aw=mon(D(d));renderAtt();toast('Extra class added');
+};
+function applyMode(){
+  const a=view==='NIT'&&nitMode==='att';
+  $('#modes').hidden=view!=='NIT';$$('#modes .sb').forEach(b=>b.classList.toggle('on',b.dataset.mo===nitMode));
+  $('#app').hidden=view==='CAL'||a;$('#att').hidden=!a;$('#cal').hidden=view!=='CAL';
+}
+const tgt=()=>view==='CAL'?$('#cal'):view==='NIT'?$('#modes'):$('#app');
+$('#modes').onclick=e=>{const b=e.target.closest('[data-mo]');if(!b)return;nitMode=b.dataset.mo;applyMode();render()};
+
+/* ---------- cloud sync (Supabase free tier: no card needed) ---------- */
+const CLOUD=window.FOLIO_CLOUD||{},SYNCK=['folio-classes','folio-events','folio-att'],kvT={},BUCKET='pdfs';
+let sb=null,user=null,syncing=false,again=false,syncErr='',lastSync=0,pdel=ld('folio-pdel',[]),ps;
+const cfg=()=>CLOUD.url&&CLOUD.key?CLOUD:ld('folio-cloud',{}),put=f=>tx('readwrite',s=>s.put(f)),curKV=k=>k==='folio-classes'?custom:k==='folio-events'?events:att;
+const pushSoon=()=>{clearTimeout(ps);ps=setTimeout(()=>syncAll(),600)};
+function initCloud(){
+  const c=cfg();if(sb||!window.supabase||!c.url||!c.key)return;
+  sb=window.supabase.createClient(c.url,c.key);
+  sb.auth.onAuthStateChange((_e,s)=>{user=s?s.user:null;renderCloud();if(user)setTimeout(syncAll,0)});
+}
+function cloudBoot(){
+  initCloud();renderCloud();
+  setInterval(()=>{if(!document.hidden)syncAll()},90000);
+  addEventListener('visibilitychange',()=>{if(!document.hidden)syncAll()});addEventListener('online',()=>syncAll());
+}
+function renderCloud(msg){
+  const fixed=!!(CLOUD.url&&CLOUD.key);
+  $('#cfgBox').hidden=fixed||!!sb;$('#authBox').hidden=!sb||!!user;$('#outBox').hidden=!user;$('#cbadge').hidden=!user;$('#ccl').hidden=fixed;
+  $('#cst').textContent=msg||(!sb?(window.supabase?'One-time setup: paste your Supabase project URL and anon key.':'Could not load the sync library. Check your connection and reload.'):!user?'Sign in or create an account so PDFs, classes, calendar and attendance follow you to every device.':syncErr?'Sync problem: '+syncErr:'Signed in as '+user.email+(lastSync?'. Last synced '+fmtT(new Date(lastSync))+'.':'.'));
+  $('#note').textContent=user?'Synced to your account. New PDFs upload in the background; on another device a PDF downloads the first time you open it.':'Not syncing yet. PDFs are saved in this browser only until you sign in with the cloud button at the top right.';
+}
+async function kvPush(k,v,ts){
+  if(!sb||!user)return;try{localStorage.setItem('folio-ts-'+k,ts)}catch(e){}
+  const {error}=await sb.from('kv').upsert({user_id:user.id,key:k,value:v,updated_at:new Date(ts).toISOString()});if(error)throw error;
+}
+function applyKV(k,v,first){
+  if(k==='folio-classes')for(const s of ['NIT','IIT'])custom[s]=first?[...new Set([...(custom[s]||[]),...(v[s]||[])])]:(v[s]||[]);
+  else if(k==='folio-events')events=first?[...v,...events.filter(e=>!v.some(x=>x.id===e.id))]:v;
+  else att=Object.assign(attDef(),v);
+  try{localStorage.setItem(k,JSON.stringify(curKV(k)))}catch(e){}
+}
+const remoteDel=async id=>{await sb.storage.from(BUCKET).remove([user.id+'/'+id+'.pdf']);const {error}=await sb.from('pdfs').delete().eq('id',id);if(error)throw error};
+async function syncAll(manual){
+  if(!sb||!user)return;if(syncing){again=true;return}
+  syncing=true;let changed=false,fail=0;renderCloud('Syncing…');
+  try{
+    const {data:kv,error:e1}=await sb.from('kv').select('key,value,updated_at');if(e1)throw e1;
+    for(const r of kv){
+      if(!SYNCK.includes(r.key))continue;
+      const lt=+localStorage.getItem('folio-ts-'+r.key)||0,rt=+new Date(r.updated_at);
+      if(rt>lt){const first=!lt;applyKV(r.key,r.value,first);changed=true;if(first)await kvPush(r.key,curKV(r.key),Date.now());else localStorage.setItem('folio-ts-'+r.key,rt)}
+      else if(lt>rt)await kvPush(r.key,curKV(r.key),lt);
+    }
+    for(const k of SYNCK)if(!kv.some(r=>r.key===k)&&localStorage.getItem(k))await kvPush(k,curKV(k),+localStorage.getItem('folio-ts-'+k)||Date.now());
+    for(const id of [...pdel])await remoteDel(id);
+    if(pdel.length){pdel=[];sv('folio-pdel',pdel)}
+    const {data:rows,error:e2}=await sb.from('pdfs').select('*');if(e2)throw e2;
+    const rm=new Set(rows.map(r=>r.id));
+    for(const f of [...files]){
+      if(rm.has(f.id)){if(!f.synced){f.synced=true;await put(f)}continue}
+      if(f.synced){await tx('readwrite',s=>s.delete(f.id));files=files.filter(x=>x.id!==f.id);changed=true;continue}
+      if(!f.blob)continue;
+      try{
+        const path=user.id+'/'+f.id+'.pdf';
+        const {error:ue}=await sb.storage.from(BUCKET).upload(path,f.blob,{contentType:'application/pdf',upsert:true});if(ue)throw ue;
+        const {error:ie}=await sb.from('pdfs').upsert({id:f.id,user_id:user.id,name:f.name,school:f.school,cls:f.cls,size:f.size,at:f.at,descr:f.desc||'',path});if(ie)throw ie;
+        f.synced=true;await put(f);
+      }catch(err){fail++}
+    }
+    for(const r of rows)if(!files.some(f=>f.id===r.id)){const f={id:r.id,name:r.name,school:r.school,cls:r.cls,size:r.size,at:r.at,desc:r.descr||'',blob:null,path:r.path,synced:true};files.push(f);await put(f);changed=true}
+    syncErr=fail?fail+' PDF'+(fail>1?'s':'')+' could not upload (files over 50 MB are too large for the free plan).':'';lastSync=Date.now();
+  }catch(err){syncErr=err.message||String(err)}
+  syncing=false;renderCloud();
+  if(manual)toast(syncErr?'Sync problem. Open the cloud panel for details.':'Synced');
+  if(changed)render();
+  if(again){again=false;syncAll()}
+}
+async function getBlob(f){
+  if(f.blob)return f.blob;
+  if(!sb||!user||!f.path)throw new Error('offline');
+  const {data,error}=await sb.storage.from(BUCKET).download(f.path);if(error)throw error;
+  f.blob=new Blob([data],{type:'application/pdf'});put(f);return f.blob;
+}
+async function openF(f){
+  if(f.blob)return void window.open(URL.createObjectURL(f.blob),'_blank');
+  const w=window.open('','_blank');
+  try{const u=URL.createObjectURL(await getBlob(f));if(w)w.location.href=u;else window.open(u,'_blank')}
+  catch(e){if(w)w.close();toast('Could not fetch this PDF. Sign in and go online.')}
+}
+async function dlF(f){
+  try{const a=document.createElement('a');a.href=URL.createObjectURL(await getBlob(f));a.download=f.name+'.pdf';a.click()}
+  catch(e){toast('Could not fetch this PDF. Sign in and go online.')}
+}
+$('#bCloud').onclick=()=>{panels();renderCloud();$('#ovC').hidden=false};
+$('#ccs').onclick=()=>{const u=$('#cu').value.trim().replace(/\/+$/,''),k=$('#ck').value.trim();if(!/^https:\/\/.+/.test(u)||!k){toast('Enter both the project URL and the anon key.');return}sv('folio-cloud',{url:u,key:k});initCloud();renderCloud()};
+$('#ccl').onclick=()=>{try{localStorage.removeItem('folio-cloud')}catch(e){}location.reload()};
+$('#cin').onclick=async()=>{const {error}=await sb.auth.signInWithPassword({email:$('#ce').value.trim(),password:$('#cpw').value});toast(error?error.message:'Signed in')};
+$('#cup').onclick=async()=>{const {data,error}=await sb.auth.signUp({email:$('#ce').value.trim(),password:$('#cpw').value});toast(error?error.message:data.session?'Account created':'Check your email to confirm, then sign in.')};
+$('#cpw').onkeydown=e=>{if(e.key==='Enter')$('#cin').click()};
+$('#cout').onclick=async()=>{await sb.auth.signOut();toast('Signed out')};
+$('#csy').onclick=()=>syncAll(true);
+
 /* boot */
 (async()=>{
   const h=$('h1');let n=0;
@@ -632,7 +845,7 @@ $('#nx').onclick=()=>{notifs=[];sv('folio-notifs',notifs);renderN()};
   letters=$$('h1 .w span');
   try{files=await tx('readonly',s=>s.getAll())||[]}catch(e){files=[]}
   for(const f of files)if(f.cls==='Statistics and Mathematics II'){f.cls='Statistics';try{await tx('readwrite',s=>s.put(f))}catch(e){}}
-  setView('NIT');renderN();checkN();setInterval(checkN,30000);
+  setView('NIT');renderN();checkN();setInterval(checkN,30000);cloudBoot();
   await count('Hanging the gallery',2200);
   $('#loader').classList.add('done');
   document.body.classList.add('go');
